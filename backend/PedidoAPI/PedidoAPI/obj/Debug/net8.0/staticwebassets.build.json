@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "10l0rOoRmBFEvzXXQdQ8qfNRRlNfO6oSFpX3NKhxoIc=",
+  "Source": "PedidoAPI",
+  "BasePath": "_content/PedidoAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
