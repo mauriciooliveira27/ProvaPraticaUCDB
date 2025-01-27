@@ -48,12 +48,12 @@ const AplicarDesconto = () => {
     const { name, value } = event.target;
 
     if (name === "valor_desconto") {
-      // Garantir que o valor do desconto não ultrapasse 30
+      
       if (value > 30) {
         setErroDesconto("O valor do desconto não pode ultrapassar 30%.");
-        return; // Impede que o valor seja alterado se for maior que 30
+        return;
       } else {
-        setErroDesconto(""); // Limpa o erro
+        setErroDesconto(""); 
       }
     }
 
@@ -64,11 +64,11 @@ const AplicarDesconto = () => {
   };
 
   const handleCancel = () => {
-    // Navega de volta para a página de listagem de pedidos
+   
     navigate("/");
   };
 
-  // Garantir que o campo valor_desconto tenha um valor padrão de 0
+  
   const valorDesconto = pedido.valor_desconto || 0;
 
   return (
@@ -90,7 +90,7 @@ const AplicarDesconto = () => {
             type="text"
             name="valor"
             value={pedido.valor || ''}
-            readOnly // Restrição de edição
+            readOnly 
           />
         </div>
         <div>
@@ -99,7 +99,7 @@ const AplicarDesconto = () => {
             type="date"
             name="data_vencimento"
             value={pedido.data_vencimento || ''}
-            readOnly // Restrição de edição
+            readOnly 
           />
         </div>
         
@@ -109,11 +109,11 @@ const AplicarDesconto = () => {
             type="text"
             name="nome_produto"
             value={pedido.nome_produto || ''}
-            readOnly // Restrição de edição
+            readOnly 
           />
         </div>
         
-        {/* Campo valor_desconto apenas editável se desconto_aplicado for 1 e se a data de vencimento for posterior ao dia atual */}
+        
         <div>
           <label>Desconto %:</label>
           <input
@@ -121,10 +121,10 @@ const AplicarDesconto = () => {
             name="valor_desconto"
             value={valorDesconto}
             onChange={handleChange}
-            disabled={!descontoAplicado || !podeAplicarDesconto} // Habilita o campo apenas se o desconto foi aplicado e a data de vencimento for posterior ao dia atual
-            max="30" // Limita o valor máximo do desconto para 30%
+            disabled={!descontoAplicado || !podeAplicarDesconto} 
+            max="30" 
           />
-          {erroDesconto && <div className="error-message">{erroDesconto}</div>} {/* Exibe a mensagem de erro */}
+          {erroDesconto && <div className="error-message">{erroDesconto}</div>} 
         </div>
 
         <div className="buttons-container">

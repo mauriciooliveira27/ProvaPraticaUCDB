@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';  // Importando Link para navegação
+import { Link } from 'react-router-dom'; // Importando Link para navegação
 import './Listagem.css';
 
 // Função para calcular os dias restantes até o vencimento
@@ -8,7 +8,7 @@ const calculateDaysLeft = (dueDate) => {
   const currentDate = new Date();
   const dueDateObj = new Date(dueDate);
   const timeDiff = dueDateObj - currentDate;
-  return timeDiff / (1000 * 3600 * 24); // Retorna a diferença em dias
+  return Math.ceil(timeDiff / (1000 * 3600 * 24)); // Retorna a diferença em dias, arredondado para cima
 };
 
 // Função para calcular o valor com desconto
@@ -40,11 +40,13 @@ const PedidoList = () => {
       const daysLeft = calculateDaysLeft(pedido.data_vencimento);
 
       if (daysLeft < 0) {
-        return { ...pedido, status: 'vencido' };
+        return { ...pedido, status: 'vencido' }; // Pedido já vencido
+      } else if (daysLeft === 0) {
+        return { ...pedido, status: 'vence hoje' }; // Pedido vence hoje
       } else if (daysLeft <= 3) {
-        return { ...pedido, status: 'quase vencido' };
+        return { ...pedido, status: 'Quase Vencendo' }; // Pedido vence em até 3 dias
       } else {
-        return { ...pedido, status: 'valido' };
+        return { ...pedido, status: 'valido' }; // Pedido válido
       }
     });
   };
@@ -74,7 +76,7 @@ const PedidoList = () => {
 
         {/* Botão de cadastro */}
         <Link to="/novo" className="btn-cadastro">
-          <i className="fas fa-plus-circle">Cadastrar Novo Pedido</i> 
+          <i className="fas fa-plus-circle">Cadastrar Novo Pedido</i>
         </Link>
 
         <table>
@@ -87,9 +89,9 @@ const PedidoList = () => {
               <th>Desconto Aplicado</th>
               <th>Nome do Produto</th>
               <th>Desconto %</th>
-              <th>Valor com Desconto</th> {/* Nova coluna */}
+              <th>Valor com Desconto</th>
               <th>Ações</th>
-              <th>Aplicar Desconto</th> {/* Coluna para o botão */}
+              <th>Aplicar Desconto</th>
             </tr>
           </thead>
           <tbody>
@@ -97,7 +99,6 @@ const PedidoList = () => {
               <tr key={pedido.pedidoId} className={pedido.status.replace(" ", "-")}>
                 <td>{pedido.pedidoId}</td>
                 <td>
-                  {/* Formata o valor para moeda com separador de milhar */}
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pedido.valor)}
                 </td>
                 <td>{pedido.status}</td>
@@ -106,7 +107,6 @@ const PedidoList = () => {
                 <td>{pedido.nome_produto}</td>
                 <td>{pedido.valor_desconto}</td>
                 <td>
-                  {/* Calcular o valor com desconto */}
                   {pedido.desconto_aplicado == 1 ? (
                     <span>
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
@@ -125,7 +125,6 @@ const PedidoList = () => {
                     <i className="fas fa-trash"></i> Excluir
                   </Link>
                 </td>
-                {/* Coloca o botão "Aplicar Desconto" apenas se a condição for atendida */}
                 <td>
                   {pedido.desconto_aplicado == 1 ? (
                     <Link to={`/aplicar-desconto/${pedido.pedidoId}`} className="btn-desconto">
